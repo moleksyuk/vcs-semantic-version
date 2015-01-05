@@ -1,9 +1,9 @@
-package com.github.moleksyuk.scm
+package com.github.moleksyuk.vcs
 
-class ScmCommandExecutor {
+class VcsCommandExecutor {
     private final String command
 
-    ScmCommandExecutor(String command) {
+    VcsCommandExecutor(String command) {
         this.command = command
     }
 

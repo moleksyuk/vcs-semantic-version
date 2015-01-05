@@ -1,19 +1,19 @@
-package com.github.moleksyuk.scm.plugin
+package com.github.moleksyuk.vcs.plugin
 
-import com.github.moleksyuk.scm.ScmCommandExecutor
-import com.github.moleksyuk.scm.ScmTypeDynamicResolver
-import com.github.moleksyuk.scm.version.builder.SemanticVersionBuilder
+import com.github.moleksyuk.vcs.VcsCommandExecutor
+import com.github.moleksyuk.vcs.VcsTypeDynamicResolver
+import com.github.moleksyuk.vcs.version.builder.SemanticVersionBuilder
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 
-class ScmVersionBuilderPlugin implements Plugin<Project> {
+class VcsVersionBuilderPlugin implements Plugin<Project> {
 
     void apply(Project project) {
-        project.extensions.create("scmVersionBuilder", ScmVersionBuilderPluginExtension)
+        project.extensions.create("scmVersionBuilder", VcsVersionBuilderPluginExtension)
         project.task('buildSemanticVersion') << {
-            def scmType = new ScmTypeDynamicResolver(project.projectDir).resolveScmType()
+            def scmType = new VcsTypeDynamicResolver(project.projectDir).resolveScmType()
 
-            ScmCommandExecutor scmCommandExecutor = new ScmCommandExecutor(scmType.command)
+            VcsCommandExecutor scmCommandExecutor = new VcsCommandExecutor(scmType.command)
             int patch = scmCommandExecutor.execute()
 
             SemanticVersionBuilder semanticVersionBuilder = new SemanticVersionBuilder()

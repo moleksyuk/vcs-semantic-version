@@ -1,4 +1,4 @@
-package com.github.moleksyuk.scm.version.builder;
+package com.github.moleksyuk.vcs.version.builder;
 
 import org.junit.Test;
 
