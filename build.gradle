@@ -1,0 +1,95 @@
+apply plugin: 'groovy'
+apply plugin: 'jacoco'
+apply plugin: 'com.github.kt3k.coveralls'
+
+ext {
+    projectName = 'scm-version-builder'
+    projectVersion = '1.0.0'
+    projectGroup = 'com.github.moleksyuk'
+    projectUrl = 'https://github.com/moleksyuk/scm-version-builder'
+    projectDescription = 'Gradle plugin for dynamic building of version property.'
+    projectOwner = 'Mykhailo Oleksiuk'
+
+    artifactManifestVersion = '1.0'
+    artifactPomScmUrl = 'git@github.com:moleksyuk/scm-version-builder.git'
+    artifactPomScmConnection = 'scm:git:git@github.com:moleksyuk/scm-version-builder.git'
+    artifactPomScmDeveloperConnection = 'scm:git:git@github.com:moleksyuk/scm-version-builder.git'
+    artifactPomLicenseName = 'MIT License'
+    artifactPomLicenseUrl = 'http://www.opensource.org/licenses/mit-license.php'
+    artifactPomDistribution = 'repo'
+    artifactPomDeveloperId = 'moleksyuk'
+    artifactPomDeveloperName = 'Mykhailo Oleksiuk'
+    artifactPomDeveloperEmail = 'mykhailo.oleksiuk@gmail.com'
+}
+
+ext.sharedManifest = manifest {
+    attributes(
+            'Manifest-Version': artifactManifestVersion,
+            'Package': projectGroup,
+            'Implementation-Title': name,
+            'Implementation-Version': projectVersion,
+            'Implementation-Vendor': projectOwner,
+            'Built-By': projectOwner,
+            'Built-Date': new Date().toString(),
+            'Built-With': "gradle-${project.getGradle().getGradleVersion()}, groovy-${GroovySystem.getVersion()}",
+            'Created-By': System.getProperty('java.version') + ' (' + System.getProperty('java.vendor') + ')'
+    )
+}
+
+version = projectVersion
+group = projectGroup
+description = projectDescription
+
+ext.isReleaseVersion = !version.endsWith("SNAPSHOT")
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.1.0'
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'org.codehaus.groovy:groovy-all:2.3.9'
+
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.hamcrest:hamcrest-library:1.3'
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled true
+        html.enabled true
+    }
+}
+
+jar {
+    manifest = project.manifest { from sharedManifest }
+    from('.') { include 'LICENSE' into('META-INF') }
+}
+
+task groovydocJar(type: Jar) {
+    classifier = 'javadoc'
+    manifest = project.manifest { from sharedManifest }
+    from('.') { include 'LICENSE' into('META-INF') }
+    from javadoc
+}
+
+task sourcesJar(type: Jar) {
+    classifier = 'sources'
+    manifest = project.manifest { from sharedManifest }
+    from('.') { include 'LICENSE' into('META-INF') }
+    from sourceSets.main.allSource
+}
+
+artifacts {
+    archives sourcesJar
+    archives groovydocJar
+}
