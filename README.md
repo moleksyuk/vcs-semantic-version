@@ -5,5 +5,5 @@
 
 [![Dependency Status](https://www.versioneye.com/user/projects/54aab36365ff617dbc000001/badge.svg?style=flat)](https://www.versioneye.com/user/projects/54aab36365ff617dbc000001)
 [![Build Status](https://travis-ci.org/moleksyuk/scm-version-builder.svg?branch=master)](https://travis-ci.org/moleksyuk/scm-version-builder)
-[![Coverage Status](https://coveralls.io/repos/moleksyuk/scm-version-builder/badge.png)](https://coveralls.io/r/moleksyuk/scm-version-builder)
+[![Coverage Status](https://img.shields.io/coveralls/moleksyuk/scm-version-builder.svg)](https://coveralls.io/r/moleksyuk/scm-version-builder?branch=master)
 
