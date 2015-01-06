@@ -1,11 +1,10 @@
-package com.github.moleksyuk.vcs.version.builder
+package com.github.moleksyuk.util
 
 class SemanticVersionBuilder {
     private int major;
     private int minor;
     private int patch;
     private String preRelease;
-
 
     SemanticVersionBuilder setMajor(int major) {
         this.major = major

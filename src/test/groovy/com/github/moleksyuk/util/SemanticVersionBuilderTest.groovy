@@ -1,9 +1,10 @@
-package com.github.moleksyuk.vcs.version.builder;
+package com.github.moleksyuk.util
 
-import org.junit.Test;
+import com.github.moleksyuk.util.SemanticVersionBuilder
+import org.junit.Test
 
-import static org.hamcrest.Matchers.equalTo;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.Matchers.equalTo
+import static org.junit.Assert.assertThat
 
 public class SemanticVersionBuilderTest {
 
