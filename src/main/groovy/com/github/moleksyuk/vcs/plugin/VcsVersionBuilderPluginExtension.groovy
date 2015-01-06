@@ -2,6 +2,6 @@ package com.github.moleksyuk.vcs.plugin
 
 class VcsVersionBuilderPluginExtension {
     def int major
-    def int minor = 0
+    def int minor
     def String preRelease
 }

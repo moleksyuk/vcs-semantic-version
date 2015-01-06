@@ -50,7 +50,7 @@ class VcsTypeResolverTest {
     }
 
     @Test(expected = RuntimeException.class)
-    public void testResolveUnknownScmType() throws Exception {
+    public void testResolveUnknownVcsType() throws Exception {
         // GIVEN
         VcsTypeResolver vcsTypeDynamicResolver = new VcsTypeResolver(new File(UNKNOWN_REPOSITORY_PATH))
 
@@ -61,7 +61,7 @@ class VcsTypeResolverTest {
     }
 
     @Test
-    public void testResolveGitScmType() throws Exception {
+    public void testResolveGitVcsType() throws Exception {
         // GIVEN
         VcsTypeResolver vcsTypeDynamicResolver = new VcsTypeResolver(new File(GIT_REPOSITORY_PATH))
 
