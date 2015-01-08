@@ -1,6 +1,5 @@
 package com.github.moleksyuk.plugin
 
-import com.github.moleksyuk.util.SemanticVersionBuilder
 import com.github.moleksyuk.vcs.VcsCommandExecutor
 import com.github.moleksyuk.vcs.VcsTypeResolver
 import org.gradle.api.DefaultTask
@@ -22,20 +21,19 @@ class SemanticVersionPluginTask extends DefaultTask {
 
     @TaskAction
     def buildSemanticVersion() {
-        println 'execute buildSemanticVersion'
         def vcsType = new VcsTypeResolver(project.projectDir).resolveVcsType()
+        logger.info "Detected version control system: '${vcsType}'"
 
         def commandExecutor = new VcsCommandExecutor(vcsType.command)
         int patch = commandExecutor.execute()
 
-        SemanticVersionBuilder semanticVersionBuilder = new SemanticVersionBuilder()
-        semanticVersionBuilder.setMajor(major)
-        semanticVersionBuilder.setMinor(minor)
-        semanticVersionBuilder.setPatch(patch)
-        semanticVersionBuilder.setPreRelease(preRelease)
-        def version = semanticVersionBuilder.buildVersion()
-        project.setVersion(version)
-        println "project version ${project.version}"
+        if (preRelease?.trim()) {
+            project.setVersion("${major}.${minor}.${patch}-${preRelease.trim()}")
+        } else {
+            project.setVersion("${major}.${minor}.${patch}")
+        }
+
+        logger.quiet "Set project version: '${project.version}'"
     }
 
 }
