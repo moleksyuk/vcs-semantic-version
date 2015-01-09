@@ -87,6 +87,7 @@ public class SemanticVersionPluginTaskTest extends AbstractIntegrationTest {
         assertThat(project.version.toString(), Matchers.equalTo('1.2.5'))
     }
 
+    @Ignore
     @Test
     public void testBuildSemanticVersionForSvnRepository() throws Exception {
         // GIVEN
