@@ -1,19 +1,18 @@
-package com.github.moleksyuk.vcs
+package com.github.moleksyuk.gradle
 
 import org.junit.BeforeClass
-import org.junit.Test
 
 import java.util.zip.ZipInputStream
 
-import static org.hamcrest.Matchers.equalTo
-import static org.junit.Assert.assertThat
-
-class VcsTypeResolverTest {
+class AbstractIntegrationTest {
 
     private static final String PATH_TO_REPOSITORIES = "build/tmp"
 
-    private static final String GIT_REPOSITORY_PATH = PATH_TO_REPOSITORIES + "/git-repository"
-    private static final String UNKNOWN_REPOSITORY_PATH = PATH_TO_REPOSITORIES + "/unknown-repository"
+    static final String ACCUREV_REPOSITORY_PATH = PATH_TO_REPOSITORIES + "/accurev-repository"
+    static final String GIT_REPOSITORY_PATH = PATH_TO_REPOSITORIES + "/git-repository"
+    static final String MERCURIAL_REPOSITORY_PATH = PATH_TO_REPOSITORIES + "/mercurial-repository"
+    static final String SVN_REPOSITORY_PATH = PATH_TO_REPOSITORIES + "/svn-repository"
+    static final String UNKNOWN_REPOSITORY_PATH = PATH_TO_REPOSITORIES + "/unknown-repository"
 
     @BeforeClass
     public static void beforeClass() throws Exception {
@@ -44,31 +43,9 @@ class VcsTypeResolverTest {
             }
         }
 
-        new File(VcsTypeResolverTest.class.getClassLoader().getResource("repositories").getFile()).eachFile {
+        new File(AbstractIntegrationTest.class.getClassLoader().getResource("repositories").getFile()).eachFile {
             it.unzip(PATH_TO_REPOSITORIES)
         }
     }
 
-    @Test(expected = RuntimeException.class)
-    public void testResolveUnknownVcsType() throws Exception {
-        // GIVEN
-        VcsTypeResolver vcsTypeDynamicResolver = new VcsTypeResolver(new File(UNKNOWN_REPOSITORY_PATH))
-
-        // WHEN
-        vcsTypeDynamicResolver.resolveVcsType()
-
-        // THEN
-    }
-
-    @Test
-    public void testResolveGitVcsType() throws Exception {
-        // GIVEN
-        VcsTypeResolver vcsTypeDynamicResolver = new VcsTypeResolver(new File(GIT_REPOSITORY_PATH))
-
-        // WHEN
-        VcsType actual = vcsTypeDynamicResolver.resolveVcsType()
-
-        // THEN
-        assertThat(actual, equalTo(VcsType.GIT))
-    }
 }

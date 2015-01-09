@@ -1,4 +1,4 @@
-package com.github.moleksyuk.plugin
+package com.github.moleksyuk.gradle.plugin
 
 import org.gradle.api.Plugin
 import org.gradle.api.Project
