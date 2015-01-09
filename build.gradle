@@ -1,9 +1,16 @@
-plugins {
-    id 'groovy'
-    id 'jacoco'
+apply plugin: 'groovy'
+apply plugin: 'jacoco'
+apply plugin: 'com.github.kt3k.coveralls'
+apply plugin: 'nu.studer.plugindev'
 
-    id 'com.github.kt3k.coveralls' version '2.1.0'
-    id 'nu.studer.plugindev' version '1.0.3'
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.1.0'
+        classpath 'nu.studer:gradle-plugindev-plugin:1.0.3'
+    }
 }
 
 ext {
