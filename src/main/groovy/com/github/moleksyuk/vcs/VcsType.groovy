@@ -1,4 +1,4 @@
-package com.github.moleksyuk.gradle.vcs
+package com.github.moleksyuk.vcs
 
 interface VcsType {
 

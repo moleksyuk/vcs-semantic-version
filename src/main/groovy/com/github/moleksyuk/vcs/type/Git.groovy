@@ -1,6 +1,6 @@
-package com.github.moleksyuk.gradle.vcs.type
+package com.github.moleksyuk.vcs.type
 
-import com.github.moleksyuk.gradle.vcs.VcsType
+import com.github.moleksyuk.vcs.VcsType
 
 class Git implements VcsType {
 

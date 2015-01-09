@@ -1,6 +1,6 @@
-package com.github.moleksyuk.gradle.vcs
+package com.github.moleksyuk.vcs
 
-import com.github.moleksyuk.gradle.SemanticVersionGradleScriptException
+import com.github.moleksyuk.SemanticVersionGradleScriptException
 import org.gradle.testfixtures.ProjectBuilder
 import org.hamcrest.Matchers
 import org.junit.Test

@@ -1,4 +1,4 @@
-package com.github.moleksyuk.gradle
+package com.github.moleksyuk
 
 import org.gradle.api.GradleScriptException
 

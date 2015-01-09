@@ -1,30 +1,26 @@
-apply plugin: 'groovy'
-apply plugin: 'jacoco'
-apply plugin: 'com.github.kt3k.coveralls'
+plugins {
+    id 'groovy'
+    id 'jacoco'
+
+    id 'com.github.kt3k.coveralls' version '2.1.0'
+    id 'nu.studer.plugindev' version '1.0.3'
+}
 
 ext {
     projectName = 'vcs-semantic-version'
-    projectVersion = '1.0.0'
+    projectVersion = '0.1.0-beta.1'
     projectGroup = 'com.github.moleksyuk'
-    projectUrl = 'https://github.com/moleksyuk/vcs-semantic-version'
-    projectDescription = 'Gradle plugin for building project version property dynamically.'
+    projectLicense = 'MIT'
+    projectURL = 'https://github.com/moleksyuk/vcs-semantic-version'
+    projectDescription = 'Gradle plugin for building project semantic version based on this http://semver.org/ specification.'
+    projectOwnerId = 'moleksyuk'
     projectOwner = 'Mykhailo Oleksiuk'
-
-    artifactManifestVersion = '1.0'
-    artifactPomScmUrl = 'git@github.com:moleksyuk/vcs-semantic-version.git'
-    artifactPomScmConnection = 'scm:git:git@github.com:moleksyuk/vcs-semantic-version.git'
-    artifactPomScmDeveloperConnection = 'scm:git:git@github.com:moleksyuk/vcs-semantic-version.git'
-    artifactPomLicenseName = 'MIT License'
-    artifactPomLicenseUrl = 'http://www.opensource.org/licenses/mit-license.php'
-    artifactPomDistribution = 'repo'
-    artifactPomDeveloperId = 'moleksyuk'
-    artifactPomDeveloperName = 'Mykhailo Oleksiuk'
-    artifactPomDeveloperEmail = 'mykhailo.oleksiuk@gmail.com'
+    projectOwnerEmail = 'mykhailo.oleksiuk@gmail.com'
 }
 
 ext.sharedManifest = manifest {
     attributes(
-            'Manifest-Version': artifactManifestVersion,
+            'Manifest-Version': '1.0',
             'Package': projectGroup,
             'Implementation-Title': name,
             'Implementation-Version': projectVersion,
@@ -39,18 +35,6 @@ ext.sharedManifest = manifest {
 version = projectVersion
 group = projectGroup
 description = projectDescription
-
-ext.isReleaseVersion = !version.endsWith("SNAPSHOT")
-
-buildscript {
-    repositories {
-        mavenCentral()
-    }
-
-    dependencies {
-        classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.1.0'
-    }
-}
 
 repositories {
     mavenCentral()
@@ -71,26 +55,21 @@ jacocoTestReport {
     }
 }
 
-jar {
-    manifest = project.manifest { from sharedManifest }
-    from('.') { include 'LICENSE' into('META-INF') }
+plugindev {
+    pluginImplementationClass 'com.github.moleksyuk.plugin.SemanticVersionPlugin'
+    pluginDescription projectDescription
+    pluginLicenses projectLicense
+    pluginTags 'gradle', 'plugin', 'semantic-version', 'vcs'
+    authorId projectOwnerId
+    authorName projectOwner
+    authorEmail projectOwnerEmail
+    projectUrl projectURL
+    projectInceptionYear '2015'
+    done()
 }
 
-task groovydocJar(type: Jar) {
-    classifier = 'javadoc'
-    manifest = project.manifest { from sharedManifest }
-    from('.') { include 'LICENSE' into('META-INF') }
-    from javadoc
-}
-
-task sourcesJar(type: Jar) {
-    classifier = 'sources'
-    manifest = project.manifest { from sharedManifest }
-    from('.') { include 'LICENSE' into('META-INF') }
-    from sourceSets.main.allSource
-}
-
-artifacts {
-    archives sourcesJar
-    archives groovydocJar
+bintray {
+    user = "$bintrayUser"
+    key = "$bintrayApiKey"
+    pkg.repo = 'gradle-plugins'
 }

@@ -1,10 +1,10 @@
-package com.github.moleksyuk.gradle.vcs
+package com.github.moleksyuk.vcs
 
-import com.github.moleksyuk.gradle.SemanticVersionGradleScriptException
-import com.github.moleksyuk.gradle.vcs.type.Accurev
-import com.github.moleksyuk.gradle.vcs.type.Git
-import com.github.moleksyuk.gradle.vcs.type.Mercurial
-import com.github.moleksyuk.gradle.vcs.type.Svn
+import com.github.moleksyuk.SemanticVersionGradleScriptException
+import com.github.moleksyuk.vcs.type.Accurev
+import com.github.moleksyuk.vcs.type.Git
+import com.github.moleksyuk.vcs.type.Mercurial
+import com.github.moleksyuk.vcs.type.Svn
 import org.gradle.api.Project
 
 class VcsTypeFactory {

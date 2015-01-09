@@ -1,7 +1,7 @@
-package com.github.moleksyuk.gradle.plugin
+package com.github.moleksyuk.plugin
 
-import com.github.moleksyuk.gradle.vcs.VcsCommandExecutor
-import com.github.moleksyuk.gradle.vcs.VcsTypeFactory
+import com.github.moleksyuk.vcs.VcsCommandExecutor
+import com.github.moleksyuk.vcs.VcsTypeFactory
 import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.Optional

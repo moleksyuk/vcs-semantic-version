@@ -1,4 +1,4 @@
-package com.github.moleksyuk.gradle.plugin
+package com.github.moleksyuk.plugin
 
 import org.gradle.api.Project
 import org.gradle.testfixtures.ProjectBuilder
@@ -15,7 +15,7 @@ public class SemanticVersionPluginTest {
         Project project = ProjectBuilder.builder().build()
 
         // WHEN
-        project.apply plugin: 'com.github.moleksyuk.gradle.vcs-semantic-version'
+        project.apply plugin: 'com.github.moleksyuk.vcs-semantic-version'
 
         // THEN
         assertThat(project.tasks.buildSemanticVersion, Matchers.instanceOf(SemanticVersionPluginTask))
