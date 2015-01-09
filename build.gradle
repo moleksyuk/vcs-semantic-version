@@ -66,7 +66,7 @@ plugindev {
     pluginImplementationClass 'com.github.moleksyuk.plugin.SemanticVersionPlugin'
     pluginDescription projectDescription
     pluginLicenses projectLicense
-    pluginTags 'gradle', 'plugin', 'semantic-version', 'vcs'
+    pluginTags 'gradle', 'plugin', 'semantic version', 'vcs', 'versioning', 'auto version'
     authorId projectOwnerId
     authorName projectOwner
     authorEmail projectOwnerEmail
@@ -78,5 +78,5 @@ plugindev {
 bintray {
     user = "$bintrayUser"
     key = "$bintrayApiKey"
-    pkg.repo = 'gradle-plugins'
+    pkg.repo = 'maven'
 }
