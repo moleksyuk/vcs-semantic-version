@@ -6,7 +6,6 @@ import org.gradle.api.Project
 import org.gradle.api.tasks.TaskValidationException
 import org.gradle.testfixtures.ProjectBuilder
 import org.hamcrest.Matchers
-import org.junit.Ignore
 import org.junit.Test
 
 import static org.junit.Assert.assertThat
@@ -41,39 +40,7 @@ public class SemanticVersionPluginTaskTest extends AbstractIntegrationTest {
     }
 
     @Test
-    public void testBuildSemanticVersionWithPreRelease() throws Exception {
-        // GIVEN
-        Project project = ProjectBuilder.builder().withProjectDir(new File(GIT_REPOSITORY_PATH)).build()
-        project.apply plugin: 'com.github.moleksyuk.gradle.vcs-semantic-version'
-        project.tasks.buildSemanticVersion.major = 1;
-        project.tasks.buildSemanticVersion.minor = 2;
-        project.tasks.buildSemanticVersion.preRelease = 'SNAPSHOT';
-
-        // WHEN
-        project.tasks.buildSemanticVersion.execute()
-
-        // THEN
-        assertThat(project.version.toString(), Matchers.equalTo('1.2.5-SNAPSHOT'))
-    }
-
-    @Ignore
-    @Test
-    public void testBuildSemanticVersionForAccurevRepository() throws Exception {
-        // GIVEN
-        Project project = ProjectBuilder.builder().withProjectDir(new File(MERCURIAL_REPOSITORY_PATH)).build()
-        project.apply plugin: 'com.github.moleksyuk.gradle.vcs-semantic-version'
-        project.tasks.buildSemanticVersion.major = 1;
-        project.tasks.buildSemanticVersion.minor = 2;
-
-        // WHEN
-        project.tasks.buildSemanticVersion.execute()
-
-        // THEN
-        assertThat(project.version.toString(), Matchers.equalTo('1.2.2'))
-    }
-
-    @Test
-    public void testBuildSemanticVersionForGitRepository() throws Exception {
+    public void testBuildSemanticVersionWithoutPreRelease() throws Exception {
         // GIVEN
         Project project = ProjectBuilder.builder().withProjectDir(new File(GIT_REPOSITORY_PATH)).build()
         project.apply plugin: 'com.github.moleksyuk.gradle.vcs-semantic-version'
@@ -87,35 +54,20 @@ public class SemanticVersionPluginTaskTest extends AbstractIntegrationTest {
         assertThat(project.version.toString(), Matchers.equalTo('1.2.5'))
     }
 
-    @Ignore
     @Test
-    public void testBuildSemanticVersionForSvnRepository() throws Exception {
+    public void testBuildSemanticVersionWithPreRelease() throws Exception {
         // GIVEN
-        Project project = ProjectBuilder.builder().withProjectDir(new File(SVN_REPOSITORY_PATH)).build()
+        Project project = ProjectBuilder.builder().withProjectDir(new File(GIT_REPOSITORY_PATH)).build()
         project.apply plugin: 'com.github.moleksyuk.gradle.vcs-semantic-version'
         project.tasks.buildSemanticVersion.major = 1;
         project.tasks.buildSemanticVersion.minor = 2;
+        project.tasks.buildSemanticVersion.preRelease = 'SNAPSHOT';
 
         // WHEN
         project.tasks.buildSemanticVersion.execute()
 
         // THEN
-        assertThat(project.version.toString(), Matchers.equalTo('1.2.1'))
-    }
-
-    @Test
-    public void testBuildSemanticVersionForMercurialRepository() throws Exception {
-        // GIVEN
-        Project project = ProjectBuilder.builder().withProjectDir(new File(MERCURIAL_REPOSITORY_PATH)).build()
-        project.apply plugin: 'com.github.moleksyuk.gradle.vcs-semantic-version'
-        project.tasks.buildSemanticVersion.major = 1;
-        project.tasks.buildSemanticVersion.minor = 2;
-
-        // WHEN
-        project.tasks.buildSemanticVersion.execute()
-
-        // THEN
-        assertThat(project.version.toString(), Matchers.equalTo('1.2.2'))
+        assertThat(project.version.toString(), Matchers.equalTo('1.2.5-SNAPSHOT'))
     }
 
     @Test
