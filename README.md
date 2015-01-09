@@ -1,4 +1,4 @@
-#vcs-version-builder
+#About
 
 Gradle plugin for building project semantic version based on this [specification](http://semver.org/).
 
