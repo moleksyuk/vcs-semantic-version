@@ -5,4 +5,7 @@ branches:
     - master
 
 after_success:
-- gradle jacocoTestReport coveralls
+- ./gradlew jacocoTestReport coveralls
+
+after_success:
+- ./gradlew clean check --debug

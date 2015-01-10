@@ -1,47 +1,39 @@
-apply plugin: 'groovy'
-apply plugin: 'jacoco'
-apply plugin: 'com.github.kt3k.coveralls'
-apply plugin: 'nu.studer.plugindev'
+plugins {
+    id 'groovy'
+    id 'jacoco'
+    id 'maven'
+    id 'signing'
+    id 'maven-publish'
 
-buildscript {
-    repositories {
-        jcenter()
-    }
-    dependencies {
-        classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.1.0'
-        classpath 'nu.studer:gradle-plugindev-plugin:1.0.3'
-    }
+    id 'com.github.kt3k.coveralls' version '2.1.0'
+    id "com.jfrog.bintray" version "1.0"
 }
 
+version = '0.1.0-beta.2'
+group = 'com.github.moleksyuk'
+description = 'Gradle plugin for building project semantic version based on this http://semver.org/ specification.'
+
 ext {
-    projectName = 'vcs-semantic-version'
-    projectVersion = '0.1.0-beta.1'
-    projectGroup = 'com.github.moleksyuk'
-    projectLicense = 'MIT'
-    projectURL = 'https://github.com/moleksyuk/vcs-semantic-version'
-    projectDescription = 'Gradle plugin for building project semantic version based on this http://semver.org/ specification.'
-    projectOwnerId = 'moleksyuk'
-    projectOwner = 'Mykhailo Oleksiuk'
-    projectOwnerEmail = 'mykhailo.oleksiuk@gmail.com'
+    commonProjectUrl = 'https://github.com/moleksyuk/vcs-semantic-version'
+    commonProjectIssueTrackerUrl = 'https://github.com/moleksyuk/vcs-semantic-version/issues'
+    commonProjectOwnerId = 'moleksyuk'
+    commonProjectOwnerFullName = 'Mykhailo Oleksiuk'
+    commonProjectOwnerEmail = 'mykhailo.oleksiuk@gmail.com'
 }
 
 ext.sharedManifest = manifest {
     attributes(
             'Manifest-Version': '1.0',
-            'Package': projectGroup,
+            'Package': group,
             'Implementation-Title': name,
-            'Implementation-Version': projectVersion,
-            'Implementation-Vendor': projectOwner,
-            'Built-By': projectOwner,
+            'Implementation-Version': version,
+            'Implementation-Vendor': commonProjectOwnerFullName,
+            'Built-By': commonProjectOwnerFullName,
             'Built-Date': new Date().toString(),
             'Built-With': "gradle-${project.getGradle().getGradleVersion()}, groovy-${GroovySystem.getVersion()}",
             'Created-By': System.getProperty('java.version') + ' (' + System.getProperty('java.vendor') + ')'
     )
 }
-
-version = projectVersion
-group = projectGroup
-description = projectDescription
 
 repositories {
     mavenCentral()
@@ -62,21 +54,112 @@ jacocoTestReport {
     }
 }
 
-plugindev {
-    pluginImplementationClass 'com.github.moleksyuk.plugin.SemanticVersionPlugin'
-    pluginDescription projectDescription
-    pluginLicenses projectLicense
-    pluginTags 'gradle', 'plugin', 'semantic version', 'vcs', 'versioning', 'auto version'
-    authorId projectOwnerId
-    authorName projectOwner
-    authorEmail projectOwnerEmail
-    projectUrl projectURL
-    projectInceptionYear '2015'
-    done()
+jar {
+    manifest = project.manifest { from sharedManifest }
+    from('.') { include 'LICENSE' into('META-INF') }
+}
+
+task groovydocJar(type: Jar, dependsOn: groovydoc) {
+    classifier = 'javadoc'
+    manifest = project.manifest { from sharedManifest }
+    from('.') { include 'LICENSE' into('META-INF') }
+    from 'build/docs/groovydoc'
+}
+
+task sourcesJar(type: Jar) {
+    classifier = 'sources'
+    manifest = project.manifest { from sharedManifest }
+    from('.') { include 'LICENSE' into('META-INF') }
+    from sourceSets.main.allSource
+}
+
+artifacts {
+    archives jar
+    archives sourcesJar
+    archives groovydocJar
+}
+
+signing {
+    sign configurations.archives
+}
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+            repository(url: 'https://oss.sonatype.org/service/local/staging/deploy/maven2/') {
+                authentication(userName: sonatypeUsername, password: sonatypePassword)
+            }
+
+            snapshotRepository(url: 'https://oss.sonatype.org/content/repositories/snapshots/') {
+                authentication(userName: sonatypeUsername, password: sonatypePassword)
+            }
+
+            pom.project {
+                name project.name
+                description project.description
+                packaging 'jar'
+                url commonProjectUrl
+
+                scm {
+                    url 'git@github.com:moleksyuk/vcs-semantic-version.git'
+                    connection 'scm:git:git@github.com:moleksyuk/vcs-semantic-version.git'
+                    developerConnection 'scm:git:git@github.com:moleksyuk/vcs-semantic-version.git'
+                }
+
+                licenses {
+                    license {
+                        name 'MIT License'
+                        url 'https://github.com/moleksyuk/vcs-semantic-version/blob/master/LICENSE'
+                        distribution 'repo'
+                    }
+                }
+
+                developers {
+                    developer {
+                        id commonProjectOwnerId
+                        name commonProjectOwnerFullName
+                        email commonProjectOwnerEmail
+                    }
+                }
+            }
+        }
+    }
 }
 
 bintray {
-    user = "$bintrayUser"
-    key = "$bintrayApiKey"
-    pkg.repo = 'maven'
+
+    user = bintrayUser
+    key = bintrayApiKey
+
+    publications = ['plugin']
+
+    pkg {
+        repo = 'gradle-plugins'
+        name = project.name
+        desc = project.description
+        websiteUrl = commonProjectUrl
+        issueTrackerUrl = commonProjectIssueTrackerUrl
+        vcsUrl = 'https://github.com/moleksyuk/vcs-semantic-version.git'
+        licenses = ['MIT']
+        labels = ['gradle', 'gradle-plugin', 'semantic-version', 'vcs', 'versioning', 'auto-versioning']
+        publicDownloadNumbers = true
+        version {
+            name = project.version
+            vcsTag = project.version
+            attributes = [
+                    'gradle-plugin': 'com.github.moleksyuk.vcs-semantic-version:com.github.moleksyuk:vcs-semantic-version'
+            ]
+        }
+    }
 }
+
+publishing {
+    publications {
+        plugin(MavenPublication) {
+            from components.java
+        }
+    }
+}
+
