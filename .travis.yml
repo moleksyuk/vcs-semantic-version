@@ -7,5 +7,5 @@ branches:
 after_success:
 - ./gradlew jacocoTestReport coveralls
 
-after_success:
+after_failure:
 - ./gradlew clean check --debug
