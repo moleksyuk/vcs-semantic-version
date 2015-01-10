@@ -79,8 +79,10 @@ artifacts {
     archives groovydocJar
 }
 
-signing {
-    sign configurations.archives
+if (signing.signatory) {
+    signing {
+        sign configurations.archives
+    }
 }
 
 uploadArchives {
