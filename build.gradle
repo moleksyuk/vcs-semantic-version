@@ -3,13 +3,12 @@ plugins {
     id 'jacoco'
     id 'maven'
     id 'signing'
-    id 'maven-publish'
 
     id 'com.github.kt3k.coveralls' version '2.1.0'
-    id "com.jfrog.bintray" version "1.0"
+    id "nu.studer.plugindev" version "1.0.3"
 }
 
-version = '0.1.0-beta.2'
+version = '0.1.0-beta.4'
 group = 'com.github.moleksyuk'
 description = 'Gradle plugin for building project semantic version based on this http://semver.org/ specification.'
 
@@ -54,23 +53,11 @@ jacocoTestReport {
     }
 }
 
-jar {
-    manifest = project.manifest { from sharedManifest }
-    from('.') { include 'LICENSE' into('META-INF') }
-}
-
 task groovydocJar(type: Jar, dependsOn: groovydoc) {
     classifier = 'javadoc'
     manifest = project.manifest { from sharedManifest }
     from('.') { include 'LICENSE' into('META-INF') }
     from 'build/docs/groovydoc'
-}
-
-task sourcesJar(type: Jar) {
-    classifier = 'sources'
-    manifest = project.manifest { from sharedManifest }
-    from('.') { include 'LICENSE' into('META-INF') }
-    from sourceSets.main.allSource
 }
 
 artifacts {
@@ -130,38 +117,29 @@ uploadArchives {
     }
 }
 
+plugindev {
+    pluginId 'com.github.moleksyuk.vcs-semantic-version'
+    pluginName 'vcs-semantic-version'
+    pluginImplementationClass 'com.github.moleksyuk.plugin.SemanticVersionPlugin'
+    pluginDescription description
+    pluginLicenses 'MIT'
+    pluginTags 'gradle', 'gradle-plugin', 'semantic-version', 'vcs', 'versioning', 'auto-versioning'
+    authorId commonProjectOwnerId
+    authorName commonProjectOwnerFullName
+    authorEmail commonProjectOwnerEmail
+    projectUrl commonProjectUrl
+    projectInceptionYear '2015'
+    done()
+}
+
 bintray {
-
-    user = bintrayUser
-    key = bintrayApiKey
-
-    publications = ['plugin']
-
-    pkg {
-        repo = 'gradle-plugins'
-        name = project.name
-        desc = project.description
-        websiteUrl = commonProjectUrl
-        issueTrackerUrl = commonProjectIssueTrackerUrl
-        vcsUrl = 'https://github.com/moleksyuk/vcs-semantic-version.git'
-        licenses = ['MIT']
-        labels = ['gradle', 'gradle-plugin', 'semantic-version', 'vcs', 'versioning', 'auto-versioning']
-        publicDownloadNumbers = true
-        version {
-            name = project.version
-            vcsTag = project.version
-            attributes = [
-                    'gradle-plugin': 'com.github.moleksyuk.vcs-semantic-version:com.github.moleksyuk:vcs-semantic-version'
-            ]
-        }
-    }
+    user = "$bintrayUser"
+    key = "$bintrayApiKey"
+    pkg.repo = 'gradle-plugins'
 }
 
-publishing {
-    publications {
-        plugin(MavenPublication) {
-            from components.java
-        }
-    }
-}
+// Upload to MavenCentral
+// ./gradlew clean uploadArchives
 
+// Upload to Bintray
+// ./gradlew clean publishToBintray
