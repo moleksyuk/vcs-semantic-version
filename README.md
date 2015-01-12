@@ -27,26 +27,24 @@ This plugin calculates **PATCH** part of semantic version automatically based on
 todo
 
 ## Supported VCS:
+Command used to get the latest revision in:
+
 ### Accurev
-Command used to get latest revision in accurev:
 ```
 accurev hist -t highest -ft
 ```
 
 ### Git
-Command used to get number of commits becase revision number is not numeric in git:
 ```
 git rev-list HEAD --count
 ```
 
 ### Mercurial
-Command used to get latest revision in mercurial:
 ```
 hg id --num --rev tip
 ```
 
 ### Subversion
-Command used to get latest revision in subversion:
 ```
 svnversion .
 ```
