@@ -7,12 +7,15 @@ class VcsCommandExecutor {
 
     private final Project project
     private final VcsType vcsType
+    private final VcsCommandPostProcessor postProcessor
 
-    VcsCommandExecutor(Project project, VcsType vcsType) {
+    VcsCommandExecutor(Project project, VcsType vcsType, VcsCommandPostProcessor postProcessor) {
         assert project, 'project can not be null'
         assert vcsType, 'vcsType can not be null'
+        assert postProcessor, 'postProcessor can not be null'
         this.project = project
         this.vcsType = vcsType
+        this.postProcessor = postProcessor
     }
 
     Integer execute() {
@@ -30,10 +33,6 @@ class VcsCommandExecutor {
             throw new SemanticVersionGradleScriptException("Command '${vcsType.command}' finished with non-zero exit value '${execResult.exitValue}'. Error output: ${errors.toString()}")
         }
 
-        try {
-            output.toString().toInteger()
-        } catch (def e) {
-            throw new SemanticVersionGradleScriptException(e.message, e)
-        }
+        postProcessor.postProcess(output.toString())
     }
 }

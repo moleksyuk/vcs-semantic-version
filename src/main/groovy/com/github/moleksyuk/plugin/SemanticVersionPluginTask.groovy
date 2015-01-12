@@ -1,6 +1,7 @@
 package com.github.moleksyuk.plugin
 
 import com.github.moleksyuk.vcs.VcsCommandExecutor
+import com.github.moleksyuk.vcs.VcsCommandPostProcessorFactory
 import com.github.moleksyuk.vcs.VcsTypeFactory
 import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.Input
@@ -24,7 +25,8 @@ class SemanticVersionPluginTask extends DefaultTask {
         def vcsType = VcsTypeFactory.createVcsType(project)
         logger.quiet "Detected version control system: '${vcsType}'"
 
-        Integer patch = new VcsCommandExecutor(project, vcsType).execute()
+        def postProcessor = VcsCommandPostProcessorFactory.createVcsCommandPostProcessor(vcsType)
+        Integer patch = new VcsCommandExecutor(project, vcsType, postProcessor).execute()
 
         if (preRelease?.trim()) {
             project.setVersion("${major}.${minor}.${patch}-${preRelease.trim()}")
