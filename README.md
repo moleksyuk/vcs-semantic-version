@@ -29,22 +29,22 @@ todo
 ## Supported VCS:
 Command used to get the latest revision in:
 
-### Accurev
+#### Accurev
 ```
 accurev hist -t highest -ft
 ```
 
-### Git
+#### Git
 ```
 git rev-list HEAD --count
 ```
 
-### Mercurial
+#### Mercurial
 ```
 hg id --num --rev tip
 ```
 
-### Subversion
+#### Subversion
 ```
 svnversion .
 ```
