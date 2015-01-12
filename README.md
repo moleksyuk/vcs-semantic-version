@@ -30,7 +30,7 @@ todo
 ### Accurev
 Command used to get latest revision in accurev:
 ```
-todo
+accurev hist -t highest -ft
 ```
 
 ### Git
