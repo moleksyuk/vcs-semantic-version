@@ -17,7 +17,7 @@ public class SemanticVersionPluginTaskTest extends AbstractIntegrationTest {
     public void testMissedMajorProperty() throws Exception {
         // GIVEN
         Project project = ProjectBuilder.builder().build()
-        project.apply plugin: 'com.github.moleksyuk.vcs-semantic-version'
+        project.apply plugin: SemanticVersionPlugin
         project.tasks.buildSemanticVersion.minor = 2;
 
         // WHEN
@@ -30,7 +30,7 @@ public class SemanticVersionPluginTaskTest extends AbstractIntegrationTest {
     public void testMissedMinorProperty() throws Exception {
         // GIVEN
         Project project = ProjectBuilder.builder().build()
-        project.apply plugin: 'com.github.moleksyuk.vcs-semantic-version'
+        project.apply plugin: SemanticVersionPlugin
         project.tasks.buildSemanticVersion.major = 1;
 
         // WHEN
@@ -43,7 +43,7 @@ public class SemanticVersionPluginTaskTest extends AbstractIntegrationTest {
     public void testBuildSemanticVersionWithoutPreRelease() throws Exception {
         // GIVEN
         Project project = ProjectBuilder.builder().withProjectDir(new File(GIT_REPOSITORY_PATH)).build()
-        project.apply plugin: 'com.github.moleksyuk.vcs-semantic-version'
+        project.apply plugin: SemanticVersionPlugin
         project.tasks.buildSemanticVersion.major = 1;
         project.tasks.buildSemanticVersion.minor = 2;
 
@@ -58,7 +58,7 @@ public class SemanticVersionPluginTaskTest extends AbstractIntegrationTest {
     public void testBuildSemanticVersionWithPreRelease() throws Exception {
         // GIVEN
         Project project = ProjectBuilder.builder().withProjectDir(new File(GIT_REPOSITORY_PATH)).build()
-        project.apply plugin: 'com.github.moleksyuk.vcs-semantic-version'
+        project.apply plugin: SemanticVersionPlugin
         project.tasks.buildSemanticVersion.major = 1;
         project.tasks.buildSemanticVersion.minor = 2;
         project.tasks.buildSemanticVersion.preRelease = 'SNAPSHOT';
@@ -74,7 +74,7 @@ public class SemanticVersionPluginTaskTest extends AbstractIntegrationTest {
     public void testBuildSemanticVersionForUnknownRepository() throws Exception {
         // GIVEN
         Project project = ProjectBuilder.builder().withProjectDir(new File(UNKNOWN_REPOSITORY_PATH)).build()
-        project.apply plugin: 'com.github.moleksyuk.vcs-semantic-version'
+        project.apply plugin: SemanticVersionPlugin
         project.tasks.buildSemanticVersion.major = 1;
         project.tasks.buildSemanticVersion.minor = 2;
 

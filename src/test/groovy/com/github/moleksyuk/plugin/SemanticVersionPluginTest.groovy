@@ -15,7 +15,7 @@ public class SemanticVersionPluginTest {
         Project project = ProjectBuilder.builder().build()
 
         // WHEN
-        project.apply plugin: 'com.github.moleksyuk.vcs-semantic-version'
+        project.apply plugin: SemanticVersionPlugin
 
         // THEN
         assertThat(project.tasks.buildSemanticVersion, Matchers.instanceOf(SemanticVersionPluginTask))
