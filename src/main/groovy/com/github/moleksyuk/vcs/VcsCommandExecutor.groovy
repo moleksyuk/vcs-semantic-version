@@ -33,6 +33,8 @@ class VcsCommandExecutor {
             throw new SemanticVersionGradleScriptException("Command '${vcsType.command}' finished with non-zero exit value '${execResult.exitValue}'. Error output: ${errors.toString()}")
         }
 
-        postProcessor.postProcess(output.toString())
+        def commandOutput = output.toString().trim()
+        project.logger.info("Command output: ${commandOutput}")
+        postProcessor.postProcess(commandOutput)
     }
 }
