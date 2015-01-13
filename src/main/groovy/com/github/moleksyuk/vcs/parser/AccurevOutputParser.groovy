@@ -1,14 +1,14 @@
-package com.github.moleksyuk.vcs.postprocessor
+package com.github.moleksyuk.vcs.parser
 
 import com.github.moleksyuk.SemanticVersionGradleScriptException
 
 
-class AccurevPostProcessor extends AbstractPostProcessor {
+class AccurevOutputParser extends BasicOutputParser {
 
     @Override
-    Integer postProcess(String commandOutput) {
+    Integer parse(String commandOutput) {
         if (commandOutput.startsWith('transaction')) {
-            super.postProcess(commandOutput.split(';')[0].split(' ')[1])
+            super.parse(commandOutput.split(';')[0].split(' ')[1])
         } else {
             throw new SemanticVersionGradleScriptException("Expected string with format 'transaction [transactionId]; promote; [timestamp] ; user: [username]' but was: '${commandOutput}'");
         }

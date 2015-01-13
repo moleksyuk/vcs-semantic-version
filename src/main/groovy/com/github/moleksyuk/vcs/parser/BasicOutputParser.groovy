@@ -1,13 +1,11 @@
-package com.github.moleksyuk.vcs.postprocessor
+package com.github.moleksyuk.vcs.parser
 
 import com.github.moleksyuk.SemanticVersionGradleScriptException
-import com.github.moleksyuk.vcs.VcsCommandPostProcessor
 
-
-abstract class AbstractPostProcessor implements VcsCommandPostProcessor {
+class BasicOutputParser implements VcsCommandOutputParser {
 
     @Override
-    Integer postProcess(String commandOutput) {
+    Integer parse(String commandOutput) {
         try {
             commandOutput.toInteger()
         } catch (def e) {

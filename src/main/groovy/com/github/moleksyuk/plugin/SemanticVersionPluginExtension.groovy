@@ -3,7 +3,10 @@ package com.github.moleksyuk.plugin
 import org.gradle.util.ConfigureUtil
 
 
-class SemanticVersionExtension {
+class SemanticVersionPluginExtension {
+
+    static final String NAME = 'semanticVersion'
+
     def int major
     def int minor
     def String preRelease

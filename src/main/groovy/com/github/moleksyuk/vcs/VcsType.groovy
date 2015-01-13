@@ -1,8 +1,5 @@
 package com.github.moleksyuk.vcs
 
-interface VcsType {
-
-    String getCommand()
-
-    List<String> getCommandArguments()
+enum VcsType {
+    ACCUREV, GIT, MERCURIAL, SVN
 }
