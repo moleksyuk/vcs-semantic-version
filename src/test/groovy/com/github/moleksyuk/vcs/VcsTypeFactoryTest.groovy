@@ -25,7 +25,7 @@ public class VcsTypeFactoryTest extends AbstractIntegrationTest {
         // THEN
         assertThat(vcsType, Matchers.instanceOf(Accurev))
         assertThat(vcsType.command, Matchers.equalTo('accurev'))
-        assertThat(vcsType.commandArguments, Matchers.equalTo(['hist', '-t', 'highest', '-ft']))
+        assertThat(vcsType.commandArguments, Matchers.equalTo(['hist', '-ft', '-t', 'highest', '-s']))
         assertThat(vcsType.toString(), Matchers.equalTo('ACCUREV'))
     }
 

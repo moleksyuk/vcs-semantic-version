@@ -3,6 +3,7 @@ package com.github.moleksyuk.plugin
 import com.github.moleksyuk.AbstractIntegrationTest
 import com.github.moleksyuk.SemanticVersionGradleScriptException
 import org.gradle.api.Project
+import org.gradle.api.tasks.TaskExecutionException
 import org.gradle.api.tasks.TaskValidationException
 import org.gradle.testfixtures.ProjectBuilder
 import org.hamcrest.Matchers
@@ -38,6 +39,21 @@ public class SemanticVersionPluginTaskTest extends AbstractIntegrationTest {
 
         // THEN
     }
+
+    @Test(expected = TaskExecutionException)
+    public void testMissedAccurevStreamPropertyForAccurevVcs() throws Exception {
+        // GIVEN
+        Project project = ProjectBuilder.builder().withProjectDir(new File(ACCUREV_REPOSITORY_PATH)).build()
+        project.apply plugin: SemanticVersionPlugin
+        project.tasks.buildSemanticVersion.major = 1;
+        project.tasks.buildSemanticVersion.minor = 2;
+
+        // WHEN
+        project.tasks.buildSemanticVersion.execute()
+
+        // THEN
+    }
+
 
     @Test
     public void testBuildSemanticVersionWithoutPreRelease() throws Exception {
@@ -87,4 +103,5 @@ public class SemanticVersionPluginTaskTest extends AbstractIntegrationTest {
             assertThat(e.cause, Matchers.instanceOf(SemanticVersionGradleScriptException))
         }
     }
+
 }
