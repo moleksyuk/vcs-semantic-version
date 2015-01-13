@@ -13,4 +13,9 @@ class Git implements VcsType {
     List<String> getCommandArguments() {
         ['rev-list', 'HEAD', '--count']
     }
+
+    @Override
+    String toString() {
+        return 'GIT'
+    }
 }

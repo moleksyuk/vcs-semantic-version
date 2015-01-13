@@ -13,4 +13,9 @@ class Accurev implements VcsType {
     List<String> getCommandArguments() {
         ['hist', '-t', 'highest', '-ft']
     }
+
+    @Override
+    String toString() {
+        return 'ACCUREV'
+    }
 }

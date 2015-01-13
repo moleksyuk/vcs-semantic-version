@@ -13,4 +13,9 @@ class Svn implements VcsType {
     List<String> getCommandArguments() {
         ['.']
     }
+
+    @Override
+    String toString() {
+        return 'SUBVERSION'
+    }
 }

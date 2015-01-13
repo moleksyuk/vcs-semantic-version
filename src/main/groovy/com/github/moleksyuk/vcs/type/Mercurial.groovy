@@ -13,4 +13,9 @@ class Mercurial implements VcsType {
     List<String> getCommandArguments() {
         ['id', '--num', '--rev', 'tip']
     }
+
+    @Override
+    String toString() {
+        return 'MERCURIAL'
+    }
 }

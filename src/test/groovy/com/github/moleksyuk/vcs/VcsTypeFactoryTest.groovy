@@ -26,6 +26,7 @@ public class VcsTypeFactoryTest extends AbstractIntegrationTest {
         assertThat(vcsType, Matchers.instanceOf(Accurev))
         assertThat(vcsType.command, Matchers.equalTo('accurev'))
         assertThat(vcsType.commandArguments, Matchers.equalTo(['hist', '-t', 'highest', '-ft']))
+        assertThat(vcsType.toString(), Matchers.equalTo('ACCUREV'))
     }
 
     @Test
@@ -40,6 +41,7 @@ public class VcsTypeFactoryTest extends AbstractIntegrationTest {
         assertThat(vcsType, Matchers.instanceOf(Git))
         assertThat(vcsType.command, Matchers.equalTo('git'))
         assertThat(vcsType.commandArguments, Matchers.equalTo(['rev-list', 'HEAD', '--count']))
+        assertThat(vcsType.toString(), Matchers.equalTo('GIT'))
     }
 
     @Test
@@ -54,6 +56,7 @@ public class VcsTypeFactoryTest extends AbstractIntegrationTest {
         assertThat(vcsType, Matchers.instanceOf(Mercurial))
         assertThat(vcsType.command, Matchers.equalTo('hg'))
         assertThat(vcsType.commandArguments, Matchers.equalTo(['id', '--num', '--rev', 'tip']))
+        assertThat(vcsType.toString(), Matchers.equalTo('MERCURIAL'))
     }
 
     @Test
@@ -68,6 +71,7 @@ public class VcsTypeFactoryTest extends AbstractIntegrationTest {
         assertThat(vcsType, Matchers.instanceOf(Svn))
         assertThat(vcsType.command, Matchers.equalTo('svnversion'))
         assertThat(vcsType.commandArguments, Matchers.equalTo(['.']))
+        assertThat(vcsType.toString(), Matchers.equalTo('SUBVERSION'))
     }
 
     @Test(expected = SemanticVersionGradleScriptException)
