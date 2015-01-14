@@ -1,14 +1,23 @@
-plugins {
-    id 'groovy'
-    id 'jacoco'
-
-    id 'com.github.kt3k.coveralls' version '2.1.0'
-    id "nu.studer.plugindev" version "1.0.3"
-}
+apply plugin: 'groovy'
+apply plugin: 'jacoco'
+apply plugin: 'com.github.kt3k.coveralls'
+apply plugin: 'nu.studer.plugindev'
 
 version = '1.0.0'
 group = 'com.github.moleksyuk'
 description = 'Gradle plugin for building project semantic version based on this http://semver.org/ specification.'
+
+wrapper.gradleVersion = '1.12'
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'nu.studer:gradle-plugindev-plugin:1.0.3'
+        classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:1.0.2'
+    }
+}
 
 repositories {
     mavenCentral()
@@ -49,19 +58,7 @@ plugindev {
 bintray {
     user = "$bintrayUser"
     key = "$bintrayApiKey"
-    pkg {
-        repo = 'gradle-plugins'
-        version {
-            gpg {
-                sign = true
-                passphrase = "$gpgPassphrase"
-            }
-//            mavenCentralSync {
-//                sync = true
-//                user = "$sonatypeUserToken"
-//                password = "$sonatypeUserTokenPassword"
-//                close = '1'
-//            }
-        }
-    }
+    pkg.repo = 'gradle-plugins'
+    pkg.version.gpg.sign = true
+    pkg.version.gpg.passphrase = "$gpgPassphrase"
 }
