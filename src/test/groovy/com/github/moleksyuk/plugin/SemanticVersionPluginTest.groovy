@@ -17,7 +17,7 @@ public class SemanticVersionPluginTest {
         project.extensions.semanticVersion.major = 1
         project.extensions.semanticVersion.minor = 2
         project.extensions.semanticVersion.preRelease = 'preRelease'
-        project.extensions.semanticVersion.accurev.stream = 'stream'
+        project.extensions.semanticVersion.accurev({ stream = 'stream' })
 
         // WHEN
         def gradle = project.getGradle()
