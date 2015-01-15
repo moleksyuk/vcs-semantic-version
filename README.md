@@ -82,7 +82,11 @@ svnversion .
 accurev hist -ft -t highest -s [accurev.stream]
 ```
 
-#### 3. Populates `project.version` property with such pattern `MAJOR.MINOR.PATCH-PRE_RELEASE` where:
+#### 3. Populates project version property with such pattern:
+
+`MAJOR.MINOR.PATCH-PRE_RELEASE` 
+
+where:
  * `MAJOR` - specified in `semanticVersion` extension
  * `MINOR` - specified in `semanticVersion` extension
  * `PATCH` - calculated in **step#2**
