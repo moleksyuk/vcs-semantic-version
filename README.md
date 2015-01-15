@@ -27,6 +27,15 @@ Apply the `com.github.moleksyuk.vcs-semantic-version` plugin to your Gradle plug
 plugins {
   id 'com.github.moleksyuk.vcs-semantic-version' version '1.0.0'
 }
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.github.moleksyuk:vcs-semantic-version:1.0.0'
+    }
+}
 ```
 Please refer to the [Gradle DSL PluginDependenciesSpec](http://www.gradle.org/docs/current/dsl/org.gradle.plugin.use.PluginDependenciesSpec.html) to
 understand the behavior and limitations when using the new syntax to declare plugin dependencies.
