@@ -8,7 +8,7 @@ plugins {
 
 version = '1.0.0'
 group = 'com.github.moleksyuk'
-description = 'Gradle plugin for building project semantic version based on this http://semver.org/ specification.'
+description = 'Gradle plugin for populating project.version property based on semantic version specification (http://semver.org/).'
 
 repositories {
     mavenCentral()
