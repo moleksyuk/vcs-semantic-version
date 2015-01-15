@@ -65,3 +65,5 @@ bintray {
         }
     }
 }
+
+// Publish the plugin to bintray use publishPluginToBintray
