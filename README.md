@@ -1,19 +1,15 @@
 vcs-semantic-version
 ===================
 
-# Overview
+[![GitHub version](https://badge.fury.io/gh/moleksyuk%2Fvcs-semantic-version.svg)](http://badge.fury.io/gh/moleksyuk%2Fvcs-semantic-version)
+[![License](http://img.shields.io/:license-mit-blue.svg)](http://doge.mit-license.org)
+[![Build Status](https://travis-ci.org/moleksyuk/vcs-semantic-version.svg?branch=master)](https://travis-ci.org/moleksyuk/vcs-semantic-version)
+[![Coverage Status](https://img.shields.io/coveralls/moleksyuk/vcs-semantic-version.svg)](https://coveralls.io/r/moleksyuk/vcs-semantic-version)
+[![Dependency Status](https://www.versioneye.com/user/projects/54ad0e61b6c7ffd180000150/badge.svg?style=flat)](https://www.versioneye.com/user/projects/54ad0e61b6c7ffd180000150)
+
 [Gradle](http://www.gradle.org) plugin for populating `project.version` property based on [semantic version specification](http://semver.org/).
 
 The **vcs-semantic-version** plugin is hosted at [Bintray's JCenter](https://bintray.com/moleksyuk/gradle-plugins/vcs-semantic-version) and [Maven Central](http://search.maven.org/#search%7Cga%7C1%7Ca%3A%22vcs-semantic-version%22).
-
-System|Status
----|---
-**Latest release:**   |[![GitHub version](https://badge.fury.io/gh/moleksyuk%2Fvcs-semantic-version.svg)](http://badge.fury.io/gh/moleksyuk%2Fvcs-semantic-version)
-**License:**   |[![License](http://img.shields.io/:license-mit-blue.svg)](http://doge.mit-license.org)
-**Continuous integration:**   |[![Build Status](https://travis-ci.org/moleksyuk/vcs-semantic-version.svg?branch=master)](https://travis-ci.org/moleksyuk/vcs-semantic-version)
-**Code coverage:**   |[![Coverage Status](https://img.shields.io/coveralls/moleksyuk/vcs-semantic-version.svg)](https://coveralls.io/r/moleksyuk/vcs-semantic-version)
-**Dependencies:**   |[![Dependency Status](https://www.versioneye.com/user/projects/54ad0e61b6c7ffd180000150/badge.svg?style=flat)](https://www.versioneye.com/user/projects/54ad0e61b6c7ffd180000150)
-
 
 ## Functionality
 The following functionality is provided by the vcs-semantic-version plugin:
@@ -59,10 +55,10 @@ jar.dependsOn buildSemanticVersion
 ## How it works
 #### 1. Detects VCS for project with such rules:
 
- * If root project folder contains `.git` **folder** then `GIT` version control system is used
- * If root project folder contains `.hg` **folder** then `MERCURIAL` version control system is used
- * If root project folder contains `.svn` **folder** then `SUBVERSION` version control system is used
- * If non of above but contains `.acignore` **file** then `ACCUREV` version control system is used
+ * If root project folder contains `.git` *folder* then `GIT` version control system is used
+ * If root project folder contains `.hg` *folder* then `MERCURIAL` version control system is used
+ * If root project folder contains `.svn` *folder* then `SUBVERSION` version control system is used
+ * If non of above but contains `.acignore` *file* then `ACCUREV` version control system is used
 
 #### 2. Gets the latest revision number from VCS
 
@@ -91,29 +87,3 @@ accurev hist -ft -t highest -s [accurev.stream]
  * `MINOR` - specified in `semanticVersion` extension
  * `PATCH` - calculated in **step#2**
  * `PRE_RELEASE` - specified in `semanticVersion` extension
-
-
-
-
-
-
-
-According to [semantic versioning](http://semver.org/):
-
-```
-Given a version number MAJOR.MINOR.PATCH, increment the:
-
-MAJOR version when you make incompatible API changes,
-MINOR version when you add functionality in a backwards-compatible manner, and
-PATCH version when you make backwards-compatible bug fixes.
-Additional labels for pre-release and build metadata are available as extensions to the MAJOR.MINOR.PATCH format.
-```
-This plugin calculates **PATCH** part of semantic version automatically based on the latest revision number of VCS used in project.
-
-## How to use
-todo
-
-## Supported VCS:
-Command used to get the latest revision in:
-
-
