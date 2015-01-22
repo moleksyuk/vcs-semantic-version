@@ -11,6 +11,66 @@ version = '1.0.1'
 group = 'com.github.moleksyuk'
 description = 'Gradle plugin for populating project.version property based on semantic version specification (http://semver.org/).'
 
+ext {
+    projectUrl = 'https://github.com/moleksyuk/vcs-semantic-version'
+    projectissueTrackerUrl = 'https://github.com/moleksyuk/vcs-semantic-version/issues'
+    projectLicenseUrl = 'https://github.com/moleksyuk/vcs-semantic-version/blob/master/LICENSE'
+
+    projectVcsUrl = 'https://github.com/moleksyuk/vcs-semantic-version.git'
+    projectScmUrl = 'git@github.com:moleksyuk/vcs-semantic-version.git'
+    projectScmConnection = 'scm:git:git@github.com:moleksyuk/vcs-semantic-version.git'
+    projectScmDeveloperConnection = 'scm:git:git@github.com:moleksyuk/vcs-semantic-version.git'
+
+    projectOwner = 'Mykhailo Oleksiuk'
+    projectOwnerId = 'moleksyuk'
+    projectOwnerEmail = 'mykhailo.oleksiuk@gmail.com'
+
+    mavenLicenseName = 'MIT License'
+    bintrayLicenseName = 'MIT'
+}
+
+ext.sharedManifest = manifest {
+    attributes(
+            'Manifest-Version': '1.0',
+            'Package': project.group,
+            'Implementation-Title': project.name,
+            'Implementation-Version': project.version,
+            'Implementation-Vendor': projectOwner,
+            'Built-By': projectOwner,
+            'Built-Date': new Date().toString(),
+            'Built-With': "gradle-${project.getGradle().getGradleVersion()}, groovy-${GroovySystem.getVersion()}",
+            'Created-By': System.getProperty('java.version') + ' (' + System.getProperty('java.vendor') + ')'
+    )
+}
+
+def pomConfig = {
+    name project.name
+    packaging 'jar'
+    url projectUrl
+
+    scm {
+        url projectScmUrl
+        connection projectScmConnection
+        developerConnection projectScmDeveloperConnection
+    }
+
+    licenses {
+        license {
+            name mavenLicenseName
+            url projectLicenseUrl
+        }
+    }
+
+    developers {
+        developer {
+            id projectOwnerId
+            name projectOwner
+            email projectOwnerEmail
+        }
+    }
+}
+
+
 repositories {
     mavenCentral()
 }
@@ -29,21 +89,60 @@ jacocoTestReport {
     }
 }
 
+jar {
+    manifest = project.manifest { from sharedManifest }
+    from('.') { include 'LICENSE' into('META-INF') }
+}
+
+task javadocJar(type: Jar) {
+    classifier = 'javadoc'
+    manifest = project.manifest { from sharedManifest }
+    from('.') { include 'LICENSE' into('META-INF') }
+    from javadoc
+}
+
+task sourcesJar(type: Jar) {
+    classifier = 'sources'
+    manifest = project.manifest { from sharedManifest }
+    from('.') { include 'LICENSE' into('META-INF') }
+    from sourceSets.main.allSource
+}
+
+artifacts {
+    archives sourcesJar
+    archives javadocJar
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+            artifact sourcesJar
+            artifact javadocJar
+
+            pom.withXml {
+                def root = asNode()
+                root.appendNode('description', project.description)
+                root.children().last() + pomConfig
+            }
+        }
+    }
+}
 
 bintray {
     user = "$bintrayUser"
     key = "$bintrayApiKey"
 
     publications = ['mavenJava']
-    dryRun = false //Whether to run this as dry-run, without deploying
+    dryRun = false
     publish = true
     pkg {
         repo = 'gradle-plugins'
-//        name = 'mypkg'
-        websiteUrl = 'https://github.com/moleksyuk/vcs-semantic-version'
-        issueTrackerUrl = 'https://github.com/moleksyuk/vcs-semantic-version/issues'
-        vcsUrl = 'https://github.com/moleksyuk/vcs-semantic-version.git'
-        licenses = ['MIT']
+        name = project.name
+        websiteUrl = projectUrl
+        issueTrackerUrl = projectissueTrackerUrl
+        vcsUrl = projectVcsUrl
+        licenses = bintrayLicenseName
         labels = ['gradle', 'gradle-plugin', 'semantic-version', 'vcs', 'versioning', 'auto-versioning', 'accuver', 'subversion', 'git', 'mercurial']
         publicDownloadNumbers = true
         version {
