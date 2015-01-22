@@ -21,24 +21,27 @@ The following functionality is provided by the vcs-semantic-version plugin:
 #### 1. Apply vcs-semantic-version plugin
 Apply the `com.github.moleksyuk.vcs-semantic-version` plugin to your Gradle plugin project.
 
-**Gradle 2.1+**
+**Gradle >= 2.1**
 
 ```groovy
 plugins {
-  id 'com.github.moleksyuk.vcs-semantic-version' version '1.0.0'
+  id 'com.github.moleksyuk.vcs-semantic-version' version '1.0.1'
 }
+```
+
+**Gradle < 2.1**
+```groovy
+apply plugin: 'com.github.moleksyuk.vcs-semantic-version'
 
 buildscript {
     repositories {
         jcenter()
     }
     dependencies {
-        classpath 'com.github.moleksyuk:vcs-semantic-version:1.0.0'
+        classpath 'com.github.moleksyuk:vcs-semantic-version:1.0.1'
     }
 }
 ```
-Please refer to the [Gradle DSL PluginDependenciesSpec](http://www.gradle.org/docs/current/dsl/org.gradle.plugin.use.PluginDependenciesSpec.html) to
-understand the behavior and limitations when using the new syntax to declare plugin dependencies.
 
 #### 2. Configure vcs-semantic-version plugin
 Configure the plugin through the `semanticVersion` extension.
