@@ -11,6 +11,30 @@ import static org.junit.Assert.assertThat
 
 public class VcsCommandExecutorTest {
 
+    @Test(expected = AssertionError)
+    public void testInitIfProjectIsNull() throws Exception {
+        // GIVEN
+        def project = null
+        def vcs = new Vcs(null, null, null, null)
+
+        // WHEN
+        new VcsCommandExecutor(project, vcs);
+
+        // THEN
+    }
+
+    @Test(expected = AssertionError)
+    public void testInitIfVcsIsNull() throws Exception {
+        // GIVEN
+        def project = ProjectBuilder.builder().build()
+        def vcs = null
+
+        // WHEN
+        new VcsCommandExecutor(project, vcs);
+
+        // THEN
+    }
+
     @Test
     public void testExecuteSuccessProcess() throws Exception {
         // GIVEN

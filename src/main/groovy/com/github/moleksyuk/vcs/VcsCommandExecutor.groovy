@@ -9,6 +9,8 @@ class VcsCommandExecutor {
     private final Vcs vcs
 
     VcsCommandExecutor(Project project, Vcs vcs) {
+        assert project, 'project must not be null'
+        assert vcs, 'vcs must not be null'
         this.project = project
         this.vcs = vcs
     }
