@@ -25,7 +25,7 @@ Apply the `com.github.moleksyuk.vcs-semantic-version` plugin to your Gradle plug
 
 ```groovy
 plugins {
-  id 'com.github.moleksyuk.vcs-semantic-version' version '1.0.1'
+  id 'com.github.moleksyuk.vcs-semantic-version' version '1.0.2'
 }
 ```
 
@@ -38,7 +38,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.github.moleksyuk:vcs-semantic-version:1.0.1'
+        classpath 'com.github.moleksyuk:vcs-semantic-version:1.0.2'
     }
 }
 ```
