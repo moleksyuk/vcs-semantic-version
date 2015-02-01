@@ -2,9 +2,11 @@ package com.github.moleksyuk.plugin
 
 import com.github.moleksyuk.AbstractIntegrationTest
 import com.github.moleksyuk.SemanticVersionGradleScriptException
+import org.gradle.api.Action
 import org.gradle.api.Project
 import org.gradle.api.logging.Logger
 import org.gradle.api.plugins.ExtensionContainer
+import org.gradle.process.ExecResult
 import org.hamcrest.Matchers
 import org.junit.Test
 import org.mockito.Mockito
@@ -12,6 +14,7 @@ import org.mockito.Mockito
 import static org.junit.Assert.assertThat
 import static org.junit.Assert.fail
 import static org.mockito.Matchers.any
+import static org.mockito.Matchers.notNull
 import static org.mockito.Mockito.mock
 import static org.mockito.Mockito.when
 
@@ -175,4 +178,35 @@ public class SemanticVersionPluginTest extends AbstractIntegrationTest {
             throw e;
         }
     }
+
+//    @Test
+//    public void testSetProject() {
+//        // GIVEN
+//        SemanticVersionPluginExtension extension = new SemanticVersionPluginExtension()
+//        extension.major = 1
+//        extension.minor = 2
+//
+//        def project = mock(Project)
+//        def execResult = mock(ExecResult)
+//
+//        Closure closure = {}
+//        when(project.exec(any(Closure))).thenReturn(execResult)
+////        when(project.exec(any(Action))).thenReturn(execResult)
+//        when(execResult.getExitValue()).thenReturn(0)
+//
+//        // WHEN
+//        def actual = project.exec(closure)
+////        plugin.apply(project)
+//
+//        // THEN
+//        assertThat(actual, notNull())
+//    }
+//
+//    class StringAction implements Action<String> {
+//
+//        @Override
+//        void execute(String s) {
+//
+//        }
+//    }
 }
