@@ -1,37 +1,32 @@
 package com.github.moleksyuk.vcs
 
 import com.github.moleksyuk.SemanticVersionGradleScriptException
-import com.github.moleksyuk.vcs.parser.AccurevOutputParser
-import com.github.moleksyuk.vcs.parser.BasicOutputParser
+import com.github.moleksyuk.vcs.impl.Accurev
+import com.github.moleksyuk.vcs.impl.Git
+import com.github.moleksyuk.vcs.impl.Mercurial
+import com.github.moleksyuk.vcs.impl.Svn
 import org.gradle.api.Project
+
+import static com.github.moleksyuk.vcs.VcsType.*
 
 class VcsFactory {
     private VcsFactory() {}
 
-    static Vcs createVcs(Project project) {
-        def directories = []
-        def files = []
-        project.projectDir.eachFile {
-            it.isDirectory() ? directories.add(it.name) : files.add(it.name)
-        }
+    static Vcs createVcs(Project project, VcsType vcsType) {
+        if (!project) throw new IllegalArgumentException('project can not be null')
+        if (!vcsType) throw new IllegalArgumentException('vcsType can not be null')
 
-        if (directories.contains('.git')) {
-            return new Vcs(VcsType.GIT, 'git', ['rev-list', 'HEAD', '--count'], new BasicOutputParser())
+        switch (vcsType) {
+            case ACCUREV:
+                return new Accurev(project.semanticVersion.accurev.stream)
+            case GIT:
+                return new Git()
+            case MERCURIAL:
+                return new Mercurial()
+            case SVN:
+                return new Svn()
+            default:
+                throw new SemanticVersionGradleScriptException("Unable to create Vcs for VcsType: '${vcsType}'.")
         }
-
-        if (directories.contains('.svn')) {
-            return new Vcs(VcsType.SVN, 'svnversion', ['.'], new BasicOutputParser())
-        }
-
-        if (directories.contains('.hg')) {
-            return new Vcs(VcsType.MERCURIAL, 'hg', ['id', '--num', '--rev', 'tip'], new BasicOutputParser())
-        }
-
-        // Must be the last
-        if (files.contains('.acignore')) {
-            return new Vcs(VcsType.ACCUREV, 'accurev', ['hist', '-ft', '-t', 'highest', '-s', project.semanticVersion.accurev.stream], new AccurevOutputParser())
-        }
-
-        throw new SemanticVersionGradleScriptException("Unable to resolve type of VCS for current project.")
     }
 }

@@ -1,8 +1,9 @@
-package com.github.moleksyuk.vcs.parser
+package com.github.moleksyuk.vcs.cmd.parser.impl
 
 import com.github.moleksyuk.SemanticVersionGradleScriptException
+import com.github.moleksyuk.vcs.cmd.parser.VcsCommandOutputParser
 
-class BasicOutputParser implements VcsCommandOutputParser {
+class CommonOutputParser implements VcsCommandOutputParser {
 
     @Override
     Integer parse(String commandOutput) {

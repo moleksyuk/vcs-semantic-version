@@ -1,34 +1,14 @@
 package com.github.moleksyuk.vcs
 
-import com.github.moleksyuk.vcs.parser.VcsCommandOutputParser
+import com.github.moleksyuk.vcs.cmd.parser.VcsCommandOutputParser
 
-class Vcs {
+interface Vcs {
 
-    def VcsType type
-    def String command
-    def List<String> commandArguments
-    def VcsCommandOutputParser commandOutputParser
+    VcsType getType()
 
-    Vcs(VcsType type, String command, List<String> commandArguments, VcsCommandOutputParser commandOutputParser) {
-        this.type = type
-        this.command = command
-        this.commandArguments = commandArguments
-        this.commandOutputParser = commandOutputParser
-    }
+    String getCommand()
 
-    VcsType getType() {
-        return type
-    }
+    List<String> getCommandArguments()
 
-    String getCommand() {
-        return command
-    }
-
-    List<String> getCommandArguments() {
-        return commandArguments
-    }
-
-    VcsCommandOutputParser getCommandOutputParser() {
-        return commandOutputParser
-    }
+    VcsCommandOutputParser getCommandOutputParser()
 }

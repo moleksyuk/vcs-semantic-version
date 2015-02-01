@@ -1,13 +1,12 @@
 package com.github.moleksyuk.plugin
 
 import com.github.moleksyuk.SemanticVersionGradleScriptException
-import com.github.moleksyuk.vcs.VcsCommandExecutor
 import com.github.moleksyuk.vcs.VcsFactory
 import com.github.moleksyuk.vcs.VcsType
-import org.gradle.BuildAdapter
+import com.github.moleksyuk.vcs.cmd.VcsCommandExecutor
+import com.github.moleksyuk.vcs.resolver.VcsTypeResolver
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.api.invocation.Gradle
 
 class SemanticVersionPlugin implements Plugin<Project> {
 
@@ -17,29 +16,35 @@ class SemanticVersionPlugin implements Plugin<Project> {
         checkRequired('major', extension.major)
         checkRequired('minor', extension.minor)
 
-        def vcs = VcsFactory.createVcs(project)
-        project.logger.quiet "Detected version control system: '${vcs.type}'"
+        def vcsType = VcsTypeResolver.resolve(project.projectDir)
+        project.logger.quiet "Detected version control system: '${vcsType}'"
 
-        if (VcsType.ACCUREV.equals(vcs.type)/* && !accurevStream?.trim()*/) {
-            //throw new SemanticVersionGradleScriptException("accurev stream must be specified for 'ACCUREV' version control system")
+        if (VcsType.ACCUREV.equals(vcsType)) {
             checkRequired('accurev.stream', extension.accurev.stream)
         }
 
+        def vcs = VcsFactory.createVcs(project, vcsType)
         Integer patch = new VcsCommandExecutor(project, vcs).execute()
 
-        if (preRelease?.trim()) {
-            project.setVersion("${major}.${minor}.${patch}-${preRelease.trim()}")
-        } else {
-            project.setVersion("${major}.${minor}.${patch}")
-        }
 
+        def version = SemanticVersionBuilder.builder()
+                .setMajor(extension.major)
+                .setMinor(extension.minor)
+                .setPatch(patch)
+                .setPreRelease(extension.preRelease)
+                .build()
+
+        project.setVersion(version)
         project.logger.quiet "Set project version: '${project.version}'"
-
     }
 
     private static void checkRequired(propertyName, propertyValue) {
-        if (!propertyValue || !propertyValue?.trim()) {
-            throw new SemanticVersionGradleScriptException("'${propertyName}' is required.")
+        if (!propertyValue) {
+            throw new SemanticVersionGradleScriptException("'${propertyName}' property is required.")
+        } else if (propertyValue instanceof Integer && propertyValue < 0) {
+            throw new SemanticVersionGradleScriptException("'${propertyName}' property can not be negative.")
+        } else if (propertyValue instanceof String && !propertyValue.trim()) {
+            throw new SemanticVersionGradleScriptException("'${propertyName}' property can not be empty.")
         }
     }
 }

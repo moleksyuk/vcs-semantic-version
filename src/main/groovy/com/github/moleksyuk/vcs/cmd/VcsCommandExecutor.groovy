@@ -1,6 +1,7 @@
-package com.github.moleksyuk.vcs
+package com.github.moleksyuk.vcs.cmd
 
 import com.github.moleksyuk.SemanticVersionGradleScriptException
+import com.github.moleksyuk.vcs.Vcs
 import org.gradle.api.Project
 
 class VcsCommandExecutor {
@@ -9,8 +10,8 @@ class VcsCommandExecutor {
     private final Vcs vcs
 
     VcsCommandExecutor(Project project, Vcs vcs) {
-        assert project, 'project must not be null'
-        assert vcs, 'vcs must not be null'
+        if (!project) throw new IllegalArgumentException('project must not be null')
+        if (!vcs) throw new IllegalArgumentException('vcs must not be null')
         this.project = project
         this.vcs = vcs
     }

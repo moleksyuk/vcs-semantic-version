@@ -4,7 +4,7 @@ import org.junit.BeforeClass
 
 import java.util.zip.ZipInputStream
 
-class AbstractIntegrationTest {
+abstract class AbstractIntegrationTest {
 
     private static final String PATH_TO_REPOSITORIES = "build/tmp"
 
@@ -47,5 +47,4 @@ class AbstractIntegrationTest {
             it.unzip(PATH_TO_REPOSITORIES)
         }
     }
-
 }

@@ -1,7 +1,10 @@
-package com.github.moleksyuk.vcs
+package com.github.moleksyuk.vcs.cmd
 
 import com.github.moleksyuk.SemanticVersionGradleScriptException
-import com.github.moleksyuk.vcs.parser.BasicOutputParser
+import com.github.moleksyuk.vcs.Vcs
+import com.github.moleksyuk.vcs.VcsType
+import com.github.moleksyuk.vcs.cmd.parser.VcsCommandOutputParser
+import com.github.moleksyuk.vcs.cmd.parser.impl.CommonOutputParser
 import org.apache.tools.ant.taskdefs.condition.Os
 import org.gradle.testfixtures.ProjectBuilder
 import org.hamcrest.Matchers
@@ -11,11 +14,11 @@ import static org.junit.Assert.assertThat
 
 public class VcsCommandExecutorTest {
 
-    @Test(expected = AssertionError)
+    @Test(expected = IllegalArgumentException)
     public void testInitIfProjectIsNull() throws Exception {
         // GIVEN
         def project = null
-        def vcs = new Vcs(null, null, null, null)
+        def vcs = new DummyVcs(null, null, null)
 
         // WHEN
         new VcsCommandExecutor(project, vcs);
@@ -23,7 +26,7 @@ public class VcsCommandExecutorTest {
         // THEN
     }
 
-    @Test(expected = AssertionError)
+    @Test(expected = IllegalArgumentException)
     public void testInitIfVcsIsNull() throws Exception {
         // GIVEN
         def project = ProjectBuilder.builder().build()
@@ -39,10 +42,9 @@ public class VcsCommandExecutorTest {
     public void testExecuteSuccessProcess() throws Exception {
         // GIVEN
         def project = ProjectBuilder.builder().build();
-        def vcs = new Vcs(null,
-                Os.isFamily(Os.FAMILY_WINDOWS) ? 'cmd' : 'echo',
+        def vcs = new DummyVcs(Os.isFamily(Os.FAMILY_WINDOWS) ? 'cmd' : 'echo',
                 Os.isFamily(Os.FAMILY_WINDOWS) ? ['/c', 'echo', '100'] : ['100'],
-                new BasicOutputParser()
+                new CommonOutputParser()
         )
         VcsCommandExecutor vcsCommandExecutor = new VcsCommandExecutor(project, vcs);
 
@@ -57,7 +59,7 @@ public class VcsCommandExecutorTest {
     public void testExecuteFailedProcess() throws Exception {
         // GIVEN
         def project = ProjectBuilder.builder().build();
-        def vcs = new Vcs(null, 'ping', [], null)
+        def vcs = new DummyVcs('ping', [], null)
         VcsCommandExecutor vcsCommandExecutor = new VcsCommandExecutor(project, vcs);
 
         // WHEN
@@ -70,10 +72,9 @@ public class VcsCommandExecutorTest {
     public void testExecuteWithNonParsedInteger() throws Exception {
         // GIVEN
         def project = ProjectBuilder.builder().build();
-        def vcs = new Vcs(null,
-                Os.isFamily(Os.FAMILY_WINDOWS) ? 'cmd' : 'echo',
+        def vcs = new DummyVcs(Os.isFamily(Os.FAMILY_WINDOWS) ? 'cmd' : 'echo',
                 Os.isFamily(Os.FAMILY_WINDOWS) ? ['/c', 'echo', 'a'] : ['a'],
-                new BasicOutputParser()
+                new CommonOutputParser()
         )
         VcsCommandExecutor vcsCommandExecutor = new VcsCommandExecutor(project, vcs);
 
@@ -81,5 +82,38 @@ public class VcsCommandExecutorTest {
         vcsCommandExecutor.execute();
 
         // THEN
+    }
+
+    static class DummyVcs implements Vcs {
+
+        private final String command
+        private final List<String> commandArguments
+        private final VcsCommandOutputParser parser
+
+        DummyVcs(String command, List<String> commandArguments, VcsCommandOutputParser parser) {
+            this.command = command
+            this.commandArguments = commandArguments
+            this.parser = parser
+        }
+
+        @Override
+        VcsType getType() {
+            return null
+        }
+
+        @Override
+        String getCommand() {
+            return command
+        }
+
+        @Override
+        List<String> getCommandArguments() {
+            return commandArguments
+        }
+
+        @Override
+        VcsCommandOutputParser getCommandOutputParser() {
+            return parser
+        }
     }
 }

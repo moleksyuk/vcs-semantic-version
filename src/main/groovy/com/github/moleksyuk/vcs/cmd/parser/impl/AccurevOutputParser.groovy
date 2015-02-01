@@ -1,9 +1,10 @@
-package com.github.moleksyuk.vcs.parser
+package com.github.moleksyuk.vcs.cmd.parser.impl
 
 import com.github.moleksyuk.SemanticVersionGradleScriptException
+import com.github.moleksyuk.vcs.cmd.parser.impl.CommonOutputParser
 
 
-class AccurevOutputParser extends BasicOutputParser {
+class AccurevOutputParser extends CommonOutputParser {
 
     @Override
     Integer parse(String commandOutput) {

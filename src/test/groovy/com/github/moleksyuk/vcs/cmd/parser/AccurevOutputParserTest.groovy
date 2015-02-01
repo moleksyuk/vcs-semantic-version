@@ -1,6 +1,7 @@
-package com.github.moleksyuk.vcs.parser
+package com.github.moleksyuk.vcs.cmd.parser
 
 import com.github.moleksyuk.SemanticVersionGradleScriptException
+import com.github.moleksyuk.vcs.cmd.parser.impl.AccurevOutputParser
 import org.hamcrest.Matchers
 import org.junit.Test
 
