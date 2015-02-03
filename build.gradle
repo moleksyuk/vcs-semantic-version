@@ -7,7 +7,7 @@ plugins {
     id 'com.jfrog.bintray' version '1.1'
 }
 
-version = '2.0.0'
+version = '1.1.0'
 group = 'com.github.moleksyuk'
 description = 'Gradle plugin for populating project.version property based on semantic version specification (http://semver.org/).'
 

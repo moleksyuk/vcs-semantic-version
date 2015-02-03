@@ -14,19 +14,16 @@ class SemanticVersionBuilder {
     }
 
     public SemanticVersionBuilder setMajor(int major) {
-        if (major < 0) throw new IllegalArgumentException('major can not be negative')
         this.major = major
         return this
     }
 
     public SemanticVersionBuilder setMinor(int minor) {
-        if (minor < 0) throw new IllegalArgumentException('minor can not be negative')
         this.minor = minor
         return this
     }
 
     public SemanticVersionBuilder setPatch(int patch) {
-        if (patch < 0) throw new IllegalArgumentException('patch can not be negative')
         this.patch = patch
         return this
     }

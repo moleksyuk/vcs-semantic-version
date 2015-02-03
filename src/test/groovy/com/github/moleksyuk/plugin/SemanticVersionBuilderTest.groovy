@@ -7,45 +7,6 @@ import static org.junit.Assert.assertThat
 
 class SemanticVersionBuilderTest {
 
-    @Test(expected = IllegalArgumentException)
-    public void testBuildIfMajorIsNegative() {
-        // GIVEN
-        def major = -1
-
-        // WHEN
-        SemanticVersionBuilder.builder()
-                .setMajor(major)
-                .build()
-
-        // THEN
-    }
-
-    @Test(expected = IllegalArgumentException)
-    public void testBuildIfMinorIsNegative() {
-        // GIVEN
-        def minor = -1
-
-        // WHEN
-        SemanticVersionBuilder.builder()
-                .setMinor(minor)
-                .build()
-
-        // THEN
-    }
-
-    @Test(expected = IllegalArgumentException)
-    public void testBuildIfPatchIsNegative() {
-        // GIVEN
-        def patch = -1
-
-        // WHEN
-        SemanticVersionBuilder.builder()
-                .setPatch(patch)
-                .build()
-
-        // THEN
-    }
-
     @Test
     public void testBuildWithDefaults() {
         // GIVEN
