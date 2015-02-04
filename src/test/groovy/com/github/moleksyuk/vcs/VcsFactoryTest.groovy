@@ -3,14 +3,12 @@ package com.github.moleksyuk.vcs
 import com.github.moleksyuk.plugin.SemanticVersionPluginExtension
 import com.github.moleksyuk.vcs.cmd.parser.impl.AccurevOutputParser
 import com.github.moleksyuk.vcs.cmd.parser.impl.CommonOutputParser
-import org.gradle.api.Project
 import org.gradle.testfixtures.ProjectBuilder
 import org.hamcrest.Matchers
 import org.junit.Test
 
 import static org.hamcrest.Matchers.equalTo
 import static org.junit.Assert.assertThat
-import static org.mockito.Mockito.mock
 
 public class VcsFactoryTest {
 
@@ -29,7 +27,7 @@ public class VcsFactoryTest {
     @Test(expected = IllegalArgumentException)
     public void testCreateIfVcsTypeIsNull() {
         // GIVEN
-        def project = mock(Project)
+        def project = ProjectBuilder.builder().build()
         def vcsType = null;
 
         // WHEN
