@@ -1,9 +1,9 @@
 package com.github.moleksyuk.vcs.impl
 
-import com.github.moleksyuk.vcs.cmd.parser.VcsCommandOutputParser
-import com.github.moleksyuk.vcs.cmd.parser.impl.CommonOutputParser
 import com.github.moleksyuk.vcs.Vcs
 import com.github.moleksyuk.vcs.VcsType
+import com.github.moleksyuk.vcs.cmd.parser.VcsCommandOutputParser
+import com.github.moleksyuk.vcs.cmd.parser.impl.CommonOutputParser
 
 class Mercurial implements Vcs {
 

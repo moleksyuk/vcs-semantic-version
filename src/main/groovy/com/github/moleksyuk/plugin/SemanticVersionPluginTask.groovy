@@ -6,8 +6,6 @@ import com.github.moleksyuk.vcs.cmd.VcsCommandExecutor
 import com.github.moleksyuk.vcs.resolver.VcsTypeResolver
 import org.gradle.api.DefaultTask
 import org.gradle.api.Project
-import org.gradle.api.tasks.Input
-import org.gradle.api.tasks.Optional
 import org.gradle.api.tasks.TaskAction
 
 import static com.github.moleksyuk.util.Messages.*
@@ -16,22 +14,6 @@ import static com.github.moleksyuk.util.Preconditions.*
 class SemanticVersionPluginTask extends DefaultTask {
 
     static final String NAME = 'buildSemanticVersion'
-
-    @Input
-    @Optional
-    Integer major
-
-    @Input
-    @Optional
-    Integer minor
-
-    @Input
-    @Optional
-    String preRelease
-
-    @Input
-    @Optional
-    String accurevStream
 
     @TaskAction
     def buildSemanticVersion() {
@@ -48,7 +30,7 @@ class SemanticVersionPluginTask extends DefaultTask {
         checkNotNegative(MINOR_PROPERTY, extension.minor)
 
         def vcsType = VcsTypeResolver.resolve(project.projectDir)
-        project.logger.quiet(DETECTED_VCS_MESSAGE, vcsType)
+        project.logger.quiet "Detected version control system: '${vcsType}'"
 
         if (VcsType.ACCUREV.equals(vcsType)) {
             checkNotNull(ACCUREV_STREAM_PROPERTY, extension.accurev.stream)
@@ -69,6 +51,6 @@ class SemanticVersionPluginTask extends DefaultTask {
                 .build()
 
         project.setVersion(version)
-        project.logger.quiet(SET_PROJECT_VERSION_MESSAGE, project.version)
+        project.logger.quiet "Set project version: '${project.version}'"
     }
 }
