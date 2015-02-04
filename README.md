@@ -18,9 +18,9 @@ The following functionality is provided by the vcs-semantic-version plugin:
  * Populates `project.version` property with such pattern `MAJOR.MINOR.PATCH-PRE_RELEASE`
 
 ## How to use
-### Set project.version using buildSemanticVersion task
+### CASE#1: Set project.version using buildSemanticVersion task
 
-#### 1. Apply the `com.github.moleksyuk.vcs-semantic-version` plugin to your gradle project.
+#### 1.1. Apply the `com.github.moleksyuk.vcs-semantic-version` plugin to your gradle project.
 
 **Gradle >= 2.1**
 
@@ -44,7 +44,7 @@ buildscript {
 }
 ```
 
-#### 2. Configure vcs-semantic-version plugin
+#### 1.2. Configure vcs-semantic-version plugin
 Configure the plugin through the `semanticVersion` extension.
 
 ```groovy
@@ -56,7 +56,7 @@ semanticVersion {
 }
 ```
 
-#### 3. Setup dependency
+#### 1.3. Setup dependency
 Specify task that should depends on `buildSemanticVersion` task.
 
 **For example:**
@@ -64,7 +64,7 @@ Specify task that should depends on `buildSemanticVersion` task.
 jar.dependsOn buildSemanticVersion
 ```
 
-### Set project.version before all possible tasks
+### CASE#2: Set project.version before all possible tasks
 There are some tasks in plugins that use `project.version`.
 
 For example: 
@@ -85,7 +85,7 @@ More over `maven-publish` plugin has [issue](http://forums.gradle.org/gradle/top
 
 To fix all these troubles use such configuration.
 
-#### 1. Define dependency for `com.github.moleksyuk.vcs-semantic-version` plugin to your gradle project.
+#### 2.1. Define dependency for `com.github.moleksyuk.vcs-semantic-version` plugin to your gradle project.
 
 ```groovy
 buildscript {
@@ -98,13 +98,13 @@ buildscript {
 }
 ```
 
-#### 2. Create semanticVersion extension manually
+#### 2.2. Create semanticVersion extension manually
 ```groovy
 import com.github.moleksyuk.plugin.SemanticVersionPluginExtension
 project.extensions.create(SemanticVersionPluginExtension.NAME, SemanticVersionPluginExtension)
 ```
 
-#### 3. Init semanticVersion extension
+#### 2.3. Init semanticVersion extension
 ```groovy
 semanticVersion {
     major = 1
@@ -112,7 +112,7 @@ semanticVersion {
 }
 ```
 
-#### 4. Apply vcs-semantic-version plugin
+#### 2.4. Apply vcs-semantic-version plugin
 ```groovy
 apply plugin: 'com.github.moleksyuk.vcs-semantic-version'
 ```
