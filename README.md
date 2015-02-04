@@ -18,14 +18,15 @@ The following functionality is provided by the vcs-semantic-version plugin:
  * Populates `project.version` property with such pattern `MAJOR.MINOR.PATCH-PRE_RELEASE`
 
 ## How to use
-#### 1. Apply vcs-semantic-version plugin
-Apply the `com.github.moleksyuk.vcs-semantic-version` plugin to your Gradle plugin project.
+### Set project.version using buildSemanticVersion task
+
+#### 1. Apply the `com.github.moleksyuk.vcs-semantic-version` plugin to your gradle project.
 
 **Gradle >= 2.1**
 
 ```groovy
 plugins {
-  id 'com.github.moleksyuk.vcs-semantic-version' version '1.0.2'
+  id 'com.github.moleksyuk.vcs-semantic-version' version '1.1.0'
 }
 ```
 
@@ -38,7 +39,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.github.moleksyuk:vcs-semantic-version:1.0.2'
+        classpath 'com.github.moleksyuk:vcs-semantic-version:1.1.0'
     }
 }
 ```
@@ -62,6 +63,88 @@ Specify task that should depends on `buildSemanticVersion` task.
 ```groovy
 jar.dependsOn buildSemanticVersion
 ```
+
+### Set project.version before all possible tasks
+There are some tasks in plugins that use `project.version`.
+
+For example: 
+* plugin: `java` task: `jar` - builds artifact with specified version
+* plugin: `sonar-runner` task: `sonarRunner` - publishes code quality results into SonarQube
+* plugin: `maven` task: `uploadArchives` - publishes artifact to Maven repository
+* plugin: `maven-publish` task: `publish` - publishes artifact to Maven repository
+
+Having multiple plugins that depend on `project.version` property requires to define dependency for each task:
+
+```groovy
+jar.dependsOn buildSemanticVersion
+tasks.sonarRunner.dependsOn buildSemanticVersion
+....
+```
+
+More over `maven-publish` plugin has [issue](http://forums.gradle.org/gradle/topics/maven_publish_and_dynamically_setting_the_version_results_in_build_failure) with dynamically populated `project.version` property.
+
+To fix all these troubles use such configuration.
+
+#### 1. Define dependency for `com.github.moleksyuk.vcs-semantic-version` plugin to your gradle project.
+
+```groovy
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.github.moleksyuk:vcs-semantic-version:1.1.0'
+    }
+}
+```
+
+#### 2. Create semanticVersion extension manually
+```groovy
+import com.github.moleksyuk.plugin.SemanticVersionPluginExtension
+project.extensions.create(SemanticVersionPluginExtension.NAME, SemanticVersionPluginExtension)
+```
+
+#### 3. Init semanticVersion extension
+```groovy
+semanticVersion {
+    major = 1
+    minor = 2
+}
+```
+
+#### 4. Apply vcs-semantic-version plugin
+```groovy
+apply plugin: 'com.github.moleksyuk.vcs-semantic-version'
+```
+
+The complete example:
+
+```groovy
+import com.github.moleksyuk.plugin.SemanticVersionPluginExtension
+project.extensions.create(SemanticVersionPluginExtension.NAME, SemanticVersionPluginExtension)
+semanticVersion {
+    major = 1
+    minor = 2
+}
+apply plugin: 'com.github.moleksyuk.vcs-semantic-version'
+apply plugin: 'maven-publish' // must be after vcs-semantic-version
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.github.moleksyuk:vcs-semantic-version:1.1.0'
+    }
+}
+```
+
+*NOTE: Keep in mind that all dependent plugins on `project.version` should be applied after row:*
+
+```groovy
+apply plugin: 'com.github.moleksyuk.vcs-semantic-version'
+```
+
 
 
 ## How it works
