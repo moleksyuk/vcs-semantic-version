@@ -25,10 +25,34 @@ class PreconditionsTest {
     }
 
     @Test
-    void testCheckNotNull() {
+    void testCheckNotNullForString() {
         // GIVEN
         def name = 'name'
         def value = 'value'
+
+        // WHEN
+        Preconditions.checkNotNull(name, value)
+
+        // THEN
+    }
+
+    @Test
+    void testCheckNotNullForEmptyString() {
+        // GIVEN
+        def name = 'name'
+        def value = ''
+
+        // WHEN
+        Preconditions.checkNotNull(name, value)
+
+        // THEN
+    }
+
+    @Test
+    void testCheckNotNullForZero() {
+        // GIVEN
+        def name = 'name'
+        def value = 0
 
         // WHEN
         Preconditions.checkNotNull(name, value)

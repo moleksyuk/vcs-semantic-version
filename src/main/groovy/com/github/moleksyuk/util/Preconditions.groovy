@@ -5,7 +5,7 @@ import com.github.moleksyuk.SemanticVersionGradleScriptException
 public final class Preconditions {
 
     public static void checkNotNull(def name, def value) {
-        if (!value) throw new SemanticVersionGradleScriptException("'${name}' property is required.");
+        if (value == null) throw new SemanticVersionGradleScriptException("'${name}' property is required.");
     }
 
     public static void checkNotBlank(def name, def value) {
