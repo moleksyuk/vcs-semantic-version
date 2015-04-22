@@ -1,5 +1,7 @@
 language: groovy
 
+sudo: true
+
 branches:
   only:
     - master
@@ -9,3 +11,4 @@ after_success:
 
 after_failure:
 - ./gradlew clean check --debug
+
