@@ -5,9 +5,10 @@ plugins {
 
     id 'com.github.kt3k.coveralls' version '2.1.0'
     id 'com.jfrog.bintray' version '1.1'
+    id 'com.gradle.plugin-publish' version '0.9.0'
 }
 
-version = '1.1.1'
+version = '1.1.2'
 group = 'com.github.moleksyuk'
 description = 'Gradle plugin for populating project.version property based on semantic version specification (http://semver.org/).'
 
@@ -25,8 +26,11 @@ ext {
     projectOwnerId = 'moleksyuk'
     projectOwnerEmail = 'mykhailo.oleksiuk@gmail.com'
 
+    projectTags = ['gradle', 'gradle-plugin', 'semantic-version', 'vcs', 'versioning', 'auto-versioning', 'accuver', 'subversion', 'git', 'mercurial']
+
     mavenLicenseName = 'MIT License'
     bintrayLicenseName = 'MIT'
+
 }
 
 ext.sharedManifest = manifest {
@@ -129,6 +133,7 @@ publishing {
     }
 }
 
+// Publishing to https://bintray.com
 bintray {
     user = "$bintrayUser"
     key = "$bintrayApiKey"
@@ -143,7 +148,7 @@ bintray {
         issueTrackerUrl = projectissueTrackerUrl
         vcsUrl = projectVcsUrl
         licenses = bintrayLicenseName
-        labels = ['gradle', 'gradle-plugin', 'semantic-version', 'vcs', 'versioning', 'auto-versioning', 'accuver', 'subversion', 'git', 'mercurial']
+        labels = projectTags
         publicDownloadNumbers = true
         version {
             name = project.version
@@ -160,6 +165,21 @@ bintray {
                 password = "$sonatypeUserTokenPassword"
                 close = '1'
             }
+        }
+    }
+}
+
+// Publishing to https://plugins.gradle.org
+pluginBundle {
+    website = projectUrl
+    vcsUrl = projectVcsUrl
+    description = project.description
+    tags = projectTags
+
+    plugins {
+        vcsSemanticVersionPlugin {
+            id = 'com.github.moleksyuk.vcs-semantic-version'
+            displayName = 'VCS semantic version plugin'
         }
     }
 }
