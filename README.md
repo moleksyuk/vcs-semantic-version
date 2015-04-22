@@ -26,7 +26,7 @@ The following functionality is provided by the vcs-semantic-version plugin:
 
 ```groovy
 plugins {
-  id 'com.github.moleksyuk.vcs-semantic-version' version '1.1.0'
+  id 'com.github.moleksyuk.vcs-semantic-version' version '1.1.1'
 }
 ```
 
@@ -39,7 +39,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.github.moleksyuk:vcs-semantic-version:1.1.0'
+        classpath 'com.github.moleksyuk:vcs-semantic-version:1.1.1'
     }
 }
 ```
@@ -93,7 +93,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.github.moleksyuk:vcs-semantic-version:1.1.0'
+        classpath 'com.github.moleksyuk:vcs-semantic-version:1.1.1'
     }
 }
 ```
@@ -134,7 +134,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.github.moleksyuk:vcs-semantic-version:1.1.0'
+        classpath 'com.github.moleksyuk:vcs-semantic-version:1.1.1'
     }
 }
 ```
