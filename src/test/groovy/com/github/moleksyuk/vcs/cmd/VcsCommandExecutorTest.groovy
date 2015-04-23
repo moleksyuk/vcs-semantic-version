@@ -59,7 +59,7 @@ public class VcsCommandExecutorTest {
     public void testExecuteFailedProcess() throws Exception {
         // GIVEN
         def project = ProjectBuilder.builder().build();
-        def vcs = new DummyVcs('ping', [], null);
+        def vcs = new DummyVcs(Os.isFamily(Os.FAMILY_WINDOWS) ? 'ping' : 'false', [], null)
         VcsCommandExecutor vcsCommandExecutor = new VcsCommandExecutor(project, vcs);
 
         // WHEN
