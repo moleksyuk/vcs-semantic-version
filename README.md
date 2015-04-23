@@ -9,7 +9,7 @@ vcs-semantic-version
 
 [Gradle](http://www.gradle.org) plugin for populating `project.version` property based on [semantic version specification](http://semver.org/).
 
-The **vcs-semantic-version** plugin is hosted at [Bintray's JCenter](https://bintray.com/moleksyuk/gradle-plugins/vcs-semantic-version) and [Maven Central](http://search.maven.org/#search%7Cga%7C1%7Ca%3A%22vcs-semantic-version%22).
+The **vcs-semantic-version** plugin is hosted at [Gradle Plugins Portal](https://plugins.gradle.org), [Bintray's JCenter](https://bintray.com/moleksyuk/gradle-plugins/vcs-semantic-version) and [Maven Central](http://search.maven.org/#search%7Cga%7C1%7Ca%3A%22vcs-semantic-version%22).
 
 ## Functionality
 The following functionality is provided by the vcs-semantic-version plugin:
